@@ -11,7 +11,7 @@ const Header = () => {
 
 
     const [{ basket }, dispatch] = useContext(DataContext)
-    console.log(basket.length)
+    // console.log(basket.length)
 
     return (
         <section className={styles.fixed}>
