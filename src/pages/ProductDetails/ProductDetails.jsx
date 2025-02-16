@@ -36,6 +36,9 @@ function ProductDetails() {
       {isLoading ? (<Loader />) : (<ProductCard
 
         product={product}
+        
+        flex = {true}
+        renderDesc = {true}
 
       />)}
 
