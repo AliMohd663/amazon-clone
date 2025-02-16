@@ -5,16 +5,16 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { FiShoppingCart } from "react-icons/fi";
 import { CiLocationOn } from "react-icons/ci";
 import LowerHeader from "./LowerHeader"
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { DataContext } from '../DataProvider/DataProvider';
 const Header = () => {
 
 
-    const [{basket},dispatch]= useContext(DataContext)
-console.log(basket.length)
+    const [{ basket }, dispatch] = useContext(DataContext)
+    console.log(basket.length)
 
     return (
-        <>
+        <section className={styles.fixed}>
             <section>
                 <section>
                     <div className={styles.header__container}>
@@ -29,7 +29,7 @@ console.log(basket.length)
                             </span>
                             <div className={styles.delivery}>
                                 <p>Deliverd to</p>
-                            <CiLocationOn />
+                                <CiLocationOn />
 
                                 <span>Ethiopia</span>
                             </div>
@@ -53,10 +53,10 @@ console.log(basket.length)
                                 </Link>
                                 {/* three components */}
                                 <Link to="/Auth">
-                                    
-                                        <p>Sign In</p>
-                                        <span>Account & Lists</span>
-                                    
+
+                                    <p>Sign In</p>
+                                    <span>Account & Lists</span>
+
                                 </Link>
                                 {/* order */}
                                 <Link to="/Orders">
@@ -65,7 +65,7 @@ console.log(basket.length)
                                 </Link>
                                 {/* cart */}
                                 <Link to="/Cart" className={styles.cart}>
-                                    <FiShoppingCart size={35}/>
+                                    <FiShoppingCart size={35} />
                                     <span>{basket.length}</span>
                                 </Link>
 
@@ -75,9 +75,9 @@ console.log(basket.length)
                     </div>
                 </section>
             </section>
-        <LowerHeader/>
+            <LowerHeader />
 
-        </>
+        </section>
     );
 }
 export default Header;
