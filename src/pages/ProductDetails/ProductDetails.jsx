@@ -39,7 +39,7 @@ function ProductDetails() {
         
         flex = {true}
         renderDesc = {true}
-
+        renderAdd={true}
       />)}
 
     </LayOut>
