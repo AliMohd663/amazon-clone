@@ -5,10 +5,12 @@ import axios from 'axios'
 import { productURL } from '../../API/endpoint'
 import ProductCard from '../../Components/Product/ProductCard'
 import styles from './results.module.css'
-
+import Loader from '../../Components/Loader/Loader'
 
 function Results() {
   const  [results, setResults] = useState([])
+  const [isLoading, setisLoading] = useState(false)
+
    const { categoryName } = useParams()
     
    useEffect(() =>{
@@ -17,8 +19,10 @@ function Results() {
     .then((response) =>{
       setResults(response.data)
       console.log(response.data)
+      setisLoading(false)
     }).catch((error) =>{
       console.log(error)
+      setisLoading(false)
     })
    }, [categoryName])
 
@@ -30,14 +34,18 @@ function Results() {
         <h1 style={{ padding: "30px" }}>Results</h1>
         <p style={{ padding: "30px" }}>categoryName /{categoryName}</p>
         <hr />
-        <div className={styles.products__container}>
-          {results.map((product) => (
-            <ProductCard
-              key={product?.id}
-              product={product}
-            />
-          ))}
-        </div>
+
+        {
+          isLoading? (<Loader/>) :(<div className={styles.products__container}>
+            {results.map((product) => (
+              <ProductCard
+                key={product?.id}
+                product={product}
+              />
+            ))}
+          </div>)
+        }
+        
       </section>
 
     </LayOut>
