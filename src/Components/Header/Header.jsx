@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styles from "./header.module.css"
 import { FaSearch } from "react-icons/fa";
 import { TbTruckDelivery } from "react-icons/tb";
@@ -6,9 +6,12 @@ import { FiShoppingCart } from "react-icons/fi";
 import { CiLocationOn } from "react-icons/ci";
 import LowerHeader from "./LowerHeader"
 import {Link} from 'react-router-dom'
+import { DataContext } from '../DataProvider/DataProvider';
 const Header = () => {
 
 
+    const [{basket},dispatch]= useContext(DataContext)
+console.log(basket.length)
 
     return (
         <>
@@ -63,7 +66,7 @@ const Header = () => {
                                 {/* cart */}
                                 <Link to="/Cart" className={styles.cart}>
                                     <FiShoppingCart size={35}/>
-                                    <span>0</span>
+                                    <span>{basket.length}</span>
                                 </Link>
 
                             </div>
