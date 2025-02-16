@@ -5,7 +5,7 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { FiShoppingCart } from "react-icons/fi";
 import { CiLocationOn } from "react-icons/ci";
 import LowerHeader from "./LowerHeader"
-
+import {Link} from 'react-router-dom'
 const Header = () => {
 
 
@@ -17,9 +17,9 @@ const Header = () => {
                     <div className={styles.header__container}>
                         <div className={styles.logo__container}>
                             {/* logo */}
-                            <a href="/">
+                            <Link to="/">
                                 <img src="https://pngimg.com/uploads/amazon/amazon_PNG11.png" alt="amazon loge" />
-                            </a>
+                            </Link>
                             {/* delivery */}
                             <span>
                                 <TbTruckDelivery />
@@ -42,29 +42,29 @@ const Header = () => {
                         {/* rigth side links */}
                         <div>
                             <div className={styles.order__container}>
-                                <a href="" className={styles.lanuage}>
+                                <Link to="" className={styles.lanuage}>
                                     <img src="https://pngimg.com/uploads/flags/flags_PNG14655.png" alt="" />
                                     <select name="" id="">
                                         <option value="">EN</option>
                                     </select>
-                                </a>
+                                </Link>
                                 {/* three components */}
-                                <a href="/Auth">
+                                <Link to="/Auth">
                                     
                                         <p>Sign In</p>
                                         <span>Account & Lists</span>
                                     
-                                </a>
+                                </Link>
                                 {/* order */}
-                                <a href="/Orders">
+                                <Link to="/Orders">
                                     <p>reuturns</p>
                                     <span>& Orders</span>
-                                </a>
+                                </Link>
                                 {/* cart */}
-                                <a href="/Cart" className={styles.cart}>
+                                <Link to="/Cart" className={styles.cart}>
                                     <FiShoppingCart size={35}/>
                                     <span>0</span>
-                                </a>
+                                </Link>
 
                             </div>
 
