@@ -13,6 +13,10 @@ const Header = () => {
     const [{ basket }, dispatch] = useContext(DataContext)
     // console.log(basket.length)
 
+    const totalItem = basket?.reduce((amount, item) => {
+        return item.amount + amount
+    }, 0)
+
     return (
         <section className={styles.fixed}>
             <section>
@@ -66,7 +70,7 @@ const Header = () => {
                                 {/* cart */}
                                 <Link to="/Cart" className={styles.cart}>
                                     <FiShoppingCart size={35} />
-                                    <span>{basket.length}</span>
+                                    <span>{totalItem}</span>
                                 </Link>
 
                             </div>

@@ -7,6 +7,27 @@
 .container img{
 width: 100px !important;
 }
+.card__product{
+    display: flex;
+    gap: 10px;
+}
+.btn__container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.btn{
+    padding: 5px;
+    font-weight: bold;
+    background-color: #fff;
+    border: none;
+}
+.btn:hover svg{
+    cursor: pointer;
+    background-color: var(--primary-color);
+}
 .container div:not(.subtotal){
     height: auto !important;
 }
