@@ -16,6 +16,8 @@
     "@firebase/auth": "^1.9.0",
     "@firebase/firestore": "^4.7.8",
     "@mui/material": "^6.4.4",
+    "@stripe/react-stripe-js": "^3.1.1",
+    "@stripe/stripe-js": "^5.6.0",
     "axios": "^1.7.9",
     "firebase": "^11.3.1",
     "numeral": "^2.0.6",
