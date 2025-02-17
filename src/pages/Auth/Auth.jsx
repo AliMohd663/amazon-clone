@@ -1,8 +1,53 @@
-import React from 'react'
+import React, { useState, useContext } from 'react'
 import styles from './Signup.module.css'
 import { Link } from 'react-router-dom'
-
+import { auth } from '../../Utillity/firebase'
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
+import { DataContext } from '../../Components/DataProvider/DataProvider'
+import { Type } from '../../Utillity/action.type'
 function Auth() {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const [{ user }, dispatch] = useContext(DataContext)
+
+console.log(user)
+
+
+
+
+  const authHandler = async (e) => {
+    e.preventDefault();
+    // console.log(e.target.name)
+    if (e.target.name == "signin") {
+      //firebase auht
+      signInWithEmailAndPassword(auth, email, password).then((userInfo) => {
+
+        dispatch({
+          type: Type.SET_USER,
+          user: userInfo.user
+        })
+      }).catch((err) => {
+        console.log(err)
+
+      })
+
+    } else {
+      createUserWithEmailAndPassword(auth, email, password).then((userInfo) => {
+
+        dispatch({
+          type: Type.SET_USER,
+          user: userInfo.user
+        })
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
+  }
+
+  // console.log(password, email)
   return (
 
     <section className={styles.login}>
@@ -20,23 +65,23 @@ function Auth() {
 
           <div>
             <label htmlFor="email">Email</label>
-            <input type="email" id='email' />
+            <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id='email' />
           </div>
           <div>
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" />
+            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" />
           </div>
-          <button className={styles.login__signInbtn}>Sign In</button>
+          <button type="submit" name="signin" onClick={authHandler} className={styles.login__signInbtn}>Sign In</button>
 
         </form>
 
         {/* agreement */}
-      <p>
-        Lorem ipsum dolor, AMAZONE FAKE CLONE adipisicing elit. Officiis natus quaerat dolorum repudiandae, nulla explicabo sunt tempore reiciendis velit!
-      </p>
+        <p>
+          Lorem ipsum dolor, AMAZONE FAKE CLONE adipisicing elit. Officiis natus quaerat dolorum repudiandae, nulla explicabo sunt tempore reiciendis velit!
+        </p>
 
-{/* create account */}
-<button className={styles.login__rgstrbtn}>Creat your Amazon Account</button>
+        {/* create account */}
+        <button type="submit" name="signup" onClick={authHandler} className={styles.login__rgstrbtn}>Creat your Amazon Account</button>
 
       </div>
 
