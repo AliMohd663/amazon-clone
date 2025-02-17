@@ -7,10 +7,15 @@ import { CiLocationOn } from "react-icons/ci";
 import LowerHeader from "./LowerHeader"
 import { Link } from 'react-router-dom'
 import { DataContext } from '../DataProvider/DataProvider';
+import { auth } from '../../Utillity/firebase'
+
+
+
+
 const Header = () => {
 
 
-    const [{ basket }, dispatch] = useContext(DataContext)
+    const [{ user, basket }, dispatch] = useContext(DataContext)
     // console.log(basket.length)
 
     const totalItem = basket?.reduce((amount, item) => {
@@ -44,7 +49,7 @@ const Header = () => {
                                 <option value="">All</option>
                             </select>
                             <input type="text" id="" placeholder='search product' />
-                            <FaSearch size={25} />
+                            <FaSearch size={38} />
                         </div>
                         {/* rigth side links */}
                         <div>
@@ -56,10 +61,31 @@ const Header = () => {
                                     </select>
                                 </Link>
                                 {/* three components */}
-                                <Link to="/Auth">
+                                <Link to={!user && "/Auth"}>
+                                    <div>
+                                        {
+                                            user ? (
 
-                                    <p>Sign In</p>
-                                    <span>Account & Lists</span>
+                                                <>
+
+                                                    <p>Hello {user?.email?.split("@")[0]}</p>
+                                                    <span onClick={() => auth.signOut()}>Sign Out</span>
+
+                                                </>
+                                            ) : (
+
+                                                <>
+                                                    <p>Hello, Sign In</p>
+                                                    <span></span>
+                                                </>
+                                            )
+                                        }
+
+
+
+                                    </div>
+
+
 
                                 </Link>
                                 {/* order */}
