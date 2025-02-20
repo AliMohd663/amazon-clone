@@ -25,7 +25,12 @@ function ProductCard({ product, flex, renderDesc, renderAdd }) {
     return (
         <div className={`${styles.card__container} ${flex ? styles.product__flexed : ''}`}>
             <Link to={`/products/${id}`}>
-                <img src={image} alt="" />
+                <img 
+                src={product.image} 
+                alt={product.title} 
+                onError={(e)=>{
+                    e.target.src= '/fallback-image.jpg';
+                }}/>
             </Link>
 
             <div>
