@@ -8,44 +8,48 @@ import CurrencyFormat from '../../Components/CurrencyFormat/CurrencyFormat';
 import { axiosInstance } from '../../API/axios';
 import ClipLoader from "react-spinners/ClipLoader";
 import { db } from '../../Utillity/firebase';
-import { collection, doc, setDoc } from "firebase/firestore"; 
+import { collection, doc, setDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
-
+// import { create } from '@mui/material/styles/createTransitions';
+import { Type } from '../../Utillity/action.type';
 function Payment() {
   const [{ user, basket }, dispatch] = useContext(DataContext);
   const [cardError, setCardError] = useState(null);
   const [processing, setProcessing] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const totalItem = basket?.reduce((amount, item) => item.amount + amount, 0);
   const total = basket.reduce((amount, item) => (item.price * 100) * item.amount + amount, 0);
 
   const handleChange = (e) => {
-    e?.error?.message ? setCardError(e.error.message) : setCardError("");
+    e?.error?.message ? setCardError(e?.error?.message) : setCardError("");
   };
 
   const handlePayment = async (e) => {
     e.preventDefault();
-    if (!stripe || !elements) return;
+
 
     try {
       setProcessing(true);
-      
-      // 1. Create payment intent
-      const { data: { clientSecret } } = await axiosInstance.post(
-        `/payment/create?total=${total}`
-      );
 
-      // 2. Confirm payment
+      // 1. we Create payment intent
+      const response = await axiosInstance({
+        method: "POST",
+        url: `/payment/create?total=${total * 100}`,
+      });
+      const clientSecret = response.data?.clientSecret
+
+
+      // 2.we Confirm payment
       const { paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement)
-        }
+        },
       });
 
-      // 3. Save to Firestore
+      //3. Save to Firestore
       if (paymentIntent.status === "succeeded") {
         const ordersRef = collection(db, "users", user.uid, "orders");
         await setDoc(doc(ordersRef, paymentIntent.id), {
@@ -61,23 +65,39 @@ const navigate = useNavigate();
           status: paymentIntent.status
         });
 
-        // 4. Clear basket (implement your basket clearing logic)
+        // 4. here we will  Clear basket . ufff
         dispatch({ type: Type.EMPTY_BASKET });
       }
+      // if (paymentIntent.status === "succeeded") {
+      //   const ordersRef = collection(db, "users", user.uid, "orders")
+      // }
+      // await db
+      //   .collection("users")
+      //   .doc(user.uid)
+      //   .collection("orders")
+      //   .doc(paymentIntent.id)
+      //   .set({
+      //     basket: basket,
+      //     amount: paymentIntent.amount,
+      //     created: paymentIntent.created,
+      //   })
+      //dispatch({ type: Type.EMPTY_BASKET })
+
+      setProcessing(false);
+      navigate("/orders", { state: { msg: "you have placed a new Order" } });
 
     } catch (error) {
       console.error("Payment error:", error);
       setCardError(error.message);
-    } finally {
-      navigate("/orders", {state:{msg: "you have placed a new Order"}})
-      setProcessing(false);
+
     }
+
   };
 
   return (
     <LayOut>
       <div className={styles.payment__header}>Checkout ({totalItem}) items</div>
-      
+
       <section className={styles.payment}>
         {/* Delivery Address Section */}
         <div className={styles.flex}>
@@ -95,10 +115,10 @@ const navigate = useNavigate();
           <h3>Review items and delivery</h3>
           <div>
             {basket?.map((item) => (
-              <ProductCard 
-                key={item.id} 
-                product={item} 
-                flex={true} 
+              <ProductCard
+                key={item.id}
+                product={item}
+                flex={true}
               />
             ))}
           </div>
@@ -112,8 +132,8 @@ const navigate = useNavigate();
             <div className={styles.payment__details}>
               <form onSubmit={handlePayment}>
                 {cardError && <div className={styles.error}>{cardError}</div>}
-                
-                <CardElement 
+
+                <CardElement
                   onChange={handleChange}
                   options={{
                     style: {
@@ -138,13 +158,13 @@ const navigate = useNavigate();
                       <CurrencyFormat amount={total / 100} />
                     </span>
                   </div>
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     disabled={processing || !stripe || !elements}
                   >
                     {processing ? (
                       <div className={styles.loading}>
-                        <ClipLoader color="#gray" size={12} />
+                        <ClipLoader color="gray" size={12} />
                         <p>Processing...</p>
                       </div>
                     ) : "Pay Now"}

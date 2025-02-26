@@ -14,7 +14,7 @@ import {
 
 function Orders() {
   const [{ user }] = useContext(DataContext);
-  const [orders, setOrders] = useState([]); // Fixed typo: sertOrders → setOrders
+  const [orders, setOrders] = useState([]); 
 
   useEffect(() => {
     if (!user) {
@@ -24,7 +24,7 @@ function Orders() {
 
     const fetchOrders = async () => {
       try {
-        // Firebase v9 modular syntax
+        
         const ordersRef = collection(db, "users", user.uid, "orders");
         const q = query(ordersRef, orderBy("created", "desc"));
 
@@ -46,8 +46,7 @@ function Orders() {
 
     fetchOrders();
 
-  }, [user]); // Added user to dependency array
-
+  }, [user]); 
   return (
     <LayOut>
       <section className={styles.container}>
@@ -57,7 +56,7 @@ function Orders() {
             <div>you have any order</div>
           }
           <div>
-            {orders?.map((eachOrder, i) => ( // Added index 'i' for key
+            {orders?.map((eachOrder, i) => ( 
               <div key={eachOrder.id}>
                 <hr />
                 <p>Order ID: {eachOrder.id}</p>

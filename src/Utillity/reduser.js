@@ -53,12 +53,12 @@ export const reduser = (state, action) => {
             case Type.EMPTY_BASKET:
                 return{
                     ...state,
-                    basket:[],
+                    basket:[]
                 }
         case Type.SET_USER:
             return {
                 ...state,
-                user: action.user
+                user: action.user,
             }
 
 
