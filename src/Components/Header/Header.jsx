@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import styles from "./header.module.css"
+import styles from "./Header.module.css"
 import { FaSearch } from "react-icons/fa";
 import { TbTruckDelivery } from "react-icons/tb";
 import { FiShoppingCart } from "react-icons/fi";
