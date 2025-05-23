@@ -1,6 +1,6 @@
 import React from 'react'
 import { LuMenu } from "react-icons/lu";
-import styles from './header.module.css'
+import styles from './Header.module.css'
 
 function LowerHeader() {
   return (
